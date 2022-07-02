@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from registerapp import views
 from djangoregister import settings
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -28,4 +30,5 @@ urlpatterns = [
     path('click_user', views.ClickRegister, name="click_user"),
     path('', views.RegisterUser, name=""),
     path('admin/', admin.site.urls),
+    path('search/',views.search,name='search'),
 ]

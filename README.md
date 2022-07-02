@@ -12,3 +12,4 @@ Open cmd go to folder which  you  download  this  project file
 
 # Run Project
 py manage.py runserver
+# ProfileAuth

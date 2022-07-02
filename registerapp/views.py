@@ -1,4 +1,3 @@
-from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib import messages
@@ -8,9 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 
-#Develop by Haseeb Asghar
-#https://www.linkedin.com/in/infohaseeb/
-#https://github.com/infohaseeb
+
 
 def LoginUser(request):
     if request.user.username=="":
@@ -40,8 +37,20 @@ def clicklogin(request):
 def LogoutUser(request):
     logout(request)
     request.user=None
-    return HttpResponseRedirect("/loginuser")       
+    return HttpResponseRedirect("/loginuser")     
 
+
+def search(request):
+    
+    query=request.GET['query']
+    
+    all=User.objects.filter(username__icontains=query)
+    params={'all': all}
+    return render(request,'search.html',params)
+    
+       
+       
+     
 
 
 
@@ -57,13 +66,22 @@ def ClickRegister(request):
         return HttpResponse("<h2>Method Not Allowed</h2>")
     else:
         username = request.POST.get('username', '')
+        first_name=request.POST.get('first_name', '')
+        last_name=request.POST.get('last_name', '')
         email = request.POST.get('email', '')
         password = request.POST.get('password', '')
 
         if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
-            User.objects.create_user(username, email, password)
+            User.objects.create_user(username=username,first_name=first_name,last_name=last_name,email=email,password=password)
             messages.success(request, "User Created Successfully")
             return HttpResponseRedirect('/register_user')
         else:
             messages.error(request, "Email or Username Already Exist")
             return HttpResponseRedirect('/register_user')
+
+
+   
+       
+     
+
+              
